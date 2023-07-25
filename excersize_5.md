@@ -1,19 +1,25 @@
 ```mermaid
-graph TD
-  subgraph User
-    U[User]
-  end
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: HTML document
+    deactivate server
 
-  subgraph Notes App Server
-    S[Server]
-  end
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
 
-  subgraph Browser
-    B[Browser]
-  end
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
 
-  U -->|1. Requests SPA page| B
-  B -->|2. Requests resources| S
-  S -->|3. Serves SPA page| B
-  B -->|4. Renders SPA| B
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server
+
+    Note right of browser: The browser executes the callback function that renders the notes
 ```
